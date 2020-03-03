@@ -1,0 +1,66 @@
+library(shinycssloaders)
+library(hodfr)
+
+navbarPage("FarFish SPiCtGui", id="nav",
+                  tabPanel("Edit data",
+
+                      div(class="row",
+                          div(class="col-md-3",
+                              fileInput('loadData', 'Load SPiCt data',
+                                  accept = c('.RData'))),
+                          div(class="col-md-3",
+                              textInput('filename', NULL, label="Filename to save as")),
+                          div(class="col-md-3",
+                              downloadButton("saveData", "Save data to Rdata", style = "margin-top: 25px"))),
+
+                      h3('Catch data'),
+                      p('Enter the unit for catch data in the field above, e.g. "Tonnes".'),
+                      hodfr(
+                          "catch",
+                          fields = list(
+                              list(name = "catch", title = "Catch")),
+                          values = list(type = 'timeseries', min = 2000, max = 2000),  #  js_debug = TRUE,
+                          params = list(rowHeaderWidth = 170),
+                          orientation = 'vertical'),
+
+                      h3('Abundance Index 1'),
+                      p('Enter the unit for abundance index data in the field above, e.g. "Tonnes".'),
+                      p("If you do not enter a month, it will be assumed to be at the beginning of the year."),
+                      hodfr(
+                          "abundance_index_1",
+                          fields = list(
+                              list(name = "month", title = "Month"),
+                              list(name = "index", title = "Index")),
+                          values = list(type = 'year', min = 2000, max = 2000),
+                          params = list(rowHeaderWidth = 170),
+                          orientation = 'vertical'),
+
+                      h3('Abundance Index 2'),
+                      p('Enter the unit for abundance index data in the field above, e.g. "Tonnes".'),
+                      p("If you do not enter a month, it will be assumed to be at the beginning of the year."),
+                      hodfr(
+                          "abundance_index_2",
+                          fields = list(
+                              list(name = "month", title = "Month"),
+                              list(name = "index", title = "Index")),
+                          values = list(type = 'year', min = 2000, max = 2000),
+                          params = list(rowHeaderWidth = 170),
+                          orientation = 'vertical'),
+
+                      p("")),
+
+                  tabPanel("Catch / Abundance Index Plot",
+                      withSpinner(plotOutput("catchPlot", height=700)),
+                      downloadButton("catchPlotDownload", label = "Download plot")),
+
+                  tabPanel("SPiCt summary plots",
+                      withSpinner(plotOutput("fitPlot", height=700)),
+                      downloadButton("fitPlotDownload", label = "Download plot"),
+                      withSpinner(verbatimTextOutput("fitMessage"))),
+
+                  tabPanel("SPiCt diagnostics plots",
+                      withSpinner(plotOutput("diagnosticsPlot", height=700)),
+                      downloadButton("diagnosticsDownload", label = "Download plot")),
+
+                  footer = includeHTML("footer.html")
+)
