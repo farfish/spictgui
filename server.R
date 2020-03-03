@@ -111,6 +111,16 @@ server <- function(input, output, session) {
         }
     })
 
+    output$fitObjectDownload <- downloadHandler(
+        filename = function() {
+            paste0(input$filename, ".fit.RData")
+        },
+        content = function(file) {
+            fit <- spict_fit()
+            save(fit, file = file)
+        }
+    )
+
     #### Diagnostics
 
     plotPlusDownload('diagnosticsPlot', function () {
