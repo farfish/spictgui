@@ -157,6 +157,41 @@ server <- function(input, output, session) {
         }
     )
 
+    #### Checklist tests
+
+    output$testConvergence <- renderPrint({
+        fit <- spict_fit()
+        writeLines("> fit$opt$convergence")
+        fit$opt$convergence
+    })
+    output$testVariance <- renderPrint({
+        fit <- spict_fit()
+        writeLines("> all(is.finite(fit$sd))")
+        all(is.finite(fit$sd))
+    })
+    output$testResiduals <- renderPrint({
+        "See 'Diagnostics plots' tab"
+    })
+    output$testRetro <- renderPrint({
+        "See 'Retrospective analysis plots' tab"
+    })
+    output$testProd <- renderPrint({
+        fit <- spict_fit()
+        writeLines("> calc.bmsyk(fit)")
+        spict::calc.bmsyk(fit)
+    })
+    output$testUncertainty <- renderPrint({
+        fit <- spict_fit()
+        writeLines("> calc.om(fit)")
+        spict::calc.om(fit)
+    })
+    output$testInitial <- renderPrint({
+        fit <- spict_fit()
+        writeLines('> check.ini(fit)')
+        fit <- check.ini(fit)
+        invisible(NULL)
+    })
+
     #### Retro plots
 
     plotPlusDownload('retroPlot', function () {

@@ -1,6 +1,18 @@
 library(shinycssloaders)
 library(hodfr)
 
+# Inline version of shiny::withMathJax
+withInlineMathJax <- function (...) {
+    path <- "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    tagList(
+        tags$head(
+            singleton(tags$script(src = path, type = "text/javascript")),
+            singleton(tags$script(HTML("MathJax.Hub.Config({tex2jax: {inlineMath: [['$-$','$-$']]}})")))),
+        ...,
+        tags$script(HTML("if (window.MathJax && document.currentScript) MathJax.Hub.Queue([\"Typeset\", MathJax.Hub, document.currentScript.previousElementSibling]);")))
+}
+
+
 navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                   title = div(
                       span("FarFish SPiCtGui"),
@@ -66,6 +78,33 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                   tabPanel("Messages",
                       downloadButton("fitObjectDownload", "Download spict.fit Rdata"),
                       withSpinner(verbatimTextOutput("fitMessage"))),
+
+                  tabPanel("Checklist",
+                      h4('Checklist for the acceptance of a SPiCT assessment'),
+                      p('Based on the', a('spict guidelines documentation', href="https://github.com/DTUAqua/spict/blob/master/spict/inst/doc/spict_guidelines.pdf")),
+                      shiny::tags$ol(
+                         shiny::tags$li(
+                             p('The assessment converged (fit$opt$convergence equals 0).'),
+                             withSpinner(verbatimTextOutput("testConvergence"), proxy.height = "100px")),
+                         shiny::tags$li(
+                             p('All variance parameters of the model parameters are finite (all(is.finite(fit$sd)) should be TRUE).'),
+                             withSpinner(verbatimTextOutput('testVariance'), proxy.height = "100px")),
+                         shiny::tags$li(
+                             p('No violation of model assumptions based on one-step-ahead residuals (bias, auto-correlation, normality). This means, that p-values are insignificant (> 0.05), indicated by green titles in the graphs of spictplot.diagnostic(fit). Slight violations of these assumptions do not necessarily invalidate model results.'),
+                             withSpinner(verbatimTextOutput('testResiduals'), proxy.height = "100px")),
+                         shiny::tags$li(
+                             withInlineMathJax(p('Consistent patterns in the retrospective analysis (fit <- retro(fit)). This means that there is no tendency of consistent under- or overestimation of the relative fishing mortality ($-$F / F_{MSY}$-$) and relative biomass ($-$B/B_{MSY}$-$) in successive assessment. The retrospective trajectories of those two quantities should be inside the confidence intervals of the base run.')),
+                             withSpinner(verbatimTextOutput('testRetro'), proxy.height = "100px")),
+                         shiny::tags$li(
+                             withInlineMathJax(p('Realistic production curve. The shape of the production curve should not be too skewed ( $-$B_{MSY}/K$-$ should be between 0.1 and 0.9). Low values of $-$B_{MSY}/K$-$ allow for an infinite population growth rate (calc.bmsyk(fit)).')),
+                             withSpinner(verbatimTextOutput('testProd'), proxy.height = "100px")),
+                         shiny::tags$li(
+                             withInlineMathJax(p('High assessment uncertainty can indicate a lack of contrast in the input data or violation of the ecological model assumptions. The main variance parameters (logsdb, logsdc, logsdi, logsdf) should not be unrealistically high. Confidence intervals for $-$B/B_{MSY}$-$ and $-$F / F_{MSY}$-$ should not span more than 1 order of magnitude (calc.om(fit)).')),
+                             withSpinner(verbatimTextOutput('testUncertainty'), proxy.height = "100px")),
+                         shiny::tags$li(
+                             p('Initial values do not influence the parameter estimates (fit <- check.ini(fit)). The estimates should be the same for all initial values (fit$check.ini$resmat). Runs which did not converge should not be considered in this regard.'),
+                             withSpinner(verbatimTextOutput('testInitial'), proxy.height = "100px")),
+                         "")),
 
                   tabPanel("Summary plots",
                       withSpinner(plotOutput("fitPlot", height=700)),
