@@ -83,6 +83,17 @@ server <- function(input, output, session) {
         }
     })
 
+    observeEvent(input$loadDemo, {
+        updateTextInput(session, "filename", value = "demo")
+        dfs <- read_all_xlsx("demo.xlsx",
+            colNames = TRUE,
+            rowNames = TRUE,
+            skipEmptyCols = TRUE)
+        for (n in names(dfs)) {
+            updateHodfrInput(session, n, dfs[[n]])
+        }
+    })
+
     output$saveData <- downloadHandler(
         filename = function() {
             paste0(input$filename, ".xlsx")
