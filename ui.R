@@ -61,9 +61,13 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                       downloadButton("catchPlotDownload", label = "Download plot")),
 
                   tabPanel("SPiCt summary plots",
+                      div(class="row",
+                          div(class = "col-md-3", checkboxInput("spict_seaprod", "Seasonal Productivity", value = FALSE)),
+                          div(class = "col-md-3", checkboxInput("spict_timevaryinggrowth", "Time-varying growth", value = FALSE))),
                       withSpinner(plotOutput("fitPlot", height=700)),
                       downloadButton("fitPlotDownload", label = "Download plot"),
                       downloadButton("fitObjectDownload", "Download spict.fit Rdata"),
+                      h4('SPiCt messages:'),
                       withSpinner(verbatimTextOutput("fitMessage"))),
 
                   tabPanel("SPiCt diagnostics plots",

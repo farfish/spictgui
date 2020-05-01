@@ -61,10 +61,9 @@ server <- function(input, output, session) {
           }
         }
 
-        ffdbdoc_to_spictstock(
-            doc)
-# TODO:           seaprod = input$spict_seaprod,
- #           timevaryinggrowth = input$spict_timevaryinggrowth)
+        ffdbdoc_to_spictstock(doc,
+            seaprod = input$spict_seaprod,
+            timevaryinggrowth = input$spict_timevaryinggrowth)
     })
 
     spict_fit <- reactive({

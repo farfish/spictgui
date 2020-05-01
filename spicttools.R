@@ -1,12 +1,12 @@
 library(spict)
 
 
-ffdbdoc_to_spictstock <- function (doc) {
+ffdbdoc_to_spictstock <- function (doc, seaprod = FALSE, timevaryinggrowth = FALSE) {
     samplestock<-list(
         seasontype = 1,  # use the spline-based representation of seasonality
         splineorder = 3,
-        seaprod = 0,
-        timevaryinggrowth = FALSE,
+        seaprod = ifelse(seaprod, 3, 0),
+        timevaryinggrowth = timevaryinggrowth,
         dteuler = 1/16)
 
     # Turn tables into obs/time lists
