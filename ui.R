@@ -1,7 +1,13 @@
 library(shinycssloaders)
 library(hodfr)
 
-navbarPage("FarFish SPiCtGui", id="nav",
+navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
+                  title = div(
+                      span("FarFish SPiCtGui"),
+                      a(icon("github", lib = "font-awesome"),
+                          href="https://github.com/farfish/spictgui",
+                          class="navbar-brand",
+                          style="position: absolute; top: 0; right: 0")),
                   tabPanel("Edit data",
 
                       div(class="row",
