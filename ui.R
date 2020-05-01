@@ -48,7 +48,7 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                           orientation = 'vertical'),
 
                       h3('Abundance Index 1'),
-                      p("If you do not enter a month, it will be assumed to be at the beginning of the year."),
+                      p("If you do not enter a month, it will be assumed to be at the beginning of the year. Leave all values blank if you do not have an appropriate index"),
                       hodfr(
                           "abundance_index_1",
                           fields = list(
@@ -59,9 +59,31 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                           orientation = 'vertical'),
 
                       h3('Abundance Index 2'),
-                      p("If you do not enter a month, it will be assumed to be at the beginning of the year."),
+                      p("If you do not enter a month, it will be assumed to be at the beginning of the year. Leave all values blank if you do not have an appropriate index"),
                       hodfr(
                           "abundance_index_2",
+                          fields = list(
+                              list(name = "month", title = "Month"),
+                              list(name = "index", title = "Index")),
+                          values = list(type = 'year', min = 2000, max = 2000),
+                          params = list(rowHeaderWidth = 170),
+                          orientation = 'vertical'),
+
+                      h3('Abundance Index 3'),
+                      p("If you do not enter a month, it will be assumed to be at the beginning of the year. Leave all values blank if you do not have an appropriate index"),
+                      hodfr(
+                          "abundance_index_3",
+                          fields = list(
+                              list(name = "month", title = "Month"),
+                              list(name = "index", title = "Index")),
+                          values = list(type = 'year', min = 2000, max = 2000),
+                          params = list(rowHeaderWidth = 170),
+                          orientation = 'vertical'),
+
+                      h3('Abundance Index 4'),
+                      p("If you do not enter a month, it will be assumed to be at the beginning of the year. Leave all values blank if you do not have an appropriate index"),
+                      hodfr(
+                          "abundance_index_4",
                           fields = list(
                               list(name = "month", title = "Month"),
                               list(name = "index", title = "Index")),

@@ -64,8 +64,10 @@ server <- function(input, output, session) {
               doc[[n]]$catch <- suppressWarnings(as.numeric(doc[[n]]$catch))
           } else if ('index' %in% names(doc[[n]])) {
               doc[[n]]$index <- suppressWarnings(as.numeric(doc[[n]]$index))
+              if (all(is.na(doc[[n]]$index))) doc[[n]] <- NULL  # Remove empty table
           } else if ('abundance_index_1' %in% names(doc[[n]])) {
               doc[[n]]$index <- suppressWarnings(as.numeric(doc[[n]]$abundance_index_1))
+              if (all(is.na(doc[[n]]$index))) doc[[n]] <- NULL  # Remove empty table
           }
         }
 
@@ -89,8 +91,8 @@ server <- function(input, output, session) {
             colNames = TRUE,
             rowNames = TRUE,
             skipEmptyCols = TRUE)
-        for (n in names(dfs)) {
-            updateHodfrInput(session, n, dfs[[n]])
+        for (n in df_names) {
+            updateHodfrInput(session, n, if (n %in% names(dfs)) dfs[[n]] else data.frame())
         }
     })
 
@@ -100,8 +102,8 @@ server <- function(input, output, session) {
             colNames = TRUE,
             rowNames = TRUE,
             skipEmptyCols = TRUE)
-        for (n in names(dfs)) {
-            updateHodfrInput(session, n, dfs[[n]])
+        for (n in df_names) {
+            updateHodfrInput(session, n, if (n %in% names(dfs)) dfs[[n]] else data.frame())
         }
     })
 
