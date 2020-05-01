@@ -17,6 +17,14 @@ memoised_fit.spict <- memoise::memoise(function (x) {
     }, args = list(x), timeout = 240)
 }, cache = memoise::cache_filesystem('/tmp/spictfit'))
 
+# Read all worksheets, converse of write.xlsx
+read_all_xlsx <- function (xlsx_path, ...) {
+    df_names <- openxlsx::getSheetNames(xlsx_path)
+    dfs <- lapply(df_names, function (n) openxlsx::read.xlsx(xlsx_path, sheet = n, ...))
+    names(dfs) <- df_names
+    return(dfs)
+}
+
 server <- function(input, output, session) {
     # Get names of data.frame inputs from UI
     df_names <- shiny::isolate(names(Filter(is.data.frame, reactiveValuesToList(input))))
@@ -66,20 +74,25 @@ server <- function(input, output, session) {
     ##### File handling
     observeEvent(input$loadData, {
         updateTextInput(session, "filename", value = gsub('.\\w+$', '', input$loadData$name))
-        load(input$loadData$datapath)  # Loads "st"
-        dfs <- spictstock_to_ffdbdoc(st)
-        for (n in df_names) {
+        dfs <- read_all_xlsx(input$loadData$datapath,
+            colNames = TRUE,
+            rowNames = TRUE,
+            skipEmptyCols = TRUE)
+        for (n in names(dfs)) {
             updateHodfrInput(session, n, dfs[[n]])
         }
     })
 
     output$saveData <- downloadHandler(
         filename = function() {
-            paste0(input$filename, ".RData")
+            paste0(input$filename, ".xlsx")
         },
         content = function(file) {
-            st <- spict_doc()
-            save(st, file = file)
+            openxlsx::write.xlsx(
+                spictstock_to_ffdbdoc(spict_doc()),
+                file,
+                col.names = TRUE,
+                row.names = TRUE)
         }
     )
 
