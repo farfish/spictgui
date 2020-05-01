@@ -20,6 +20,11 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                           div(class="col-md-3",
                               downloadButton("saveData", "Save data to xlsx", style = "margin-top: 25px"))),
 
+                      h3('Model configuration'),
+                      div(class="row",
+                          div(class = "col-md-3", checkboxInput("spict_seaprod", "Seasonal Productivity", value = FALSE)),
+                          div(class = "col-md-3", checkboxInput("spict_timevaryinggrowth", "Time-varying growth", value = FALSE))),
+
                       h3('Catch data'),
                       p('Enter the unit for catch data in the field above, e.g. "Tonnes".'),
                       hodfr(
@@ -31,7 +36,6 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                           orientation = 'vertical'),
 
                       h3('Abundance Index 1'),
-                      p('Enter the unit for abundance index data in the field above, e.g. "Tonnes".'),
                       p("If you do not enter a month, it will be assumed to be at the beginning of the year."),
                       hodfr(
                           "abundance_index_1",
@@ -43,7 +47,6 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                           orientation = 'vertical'),
 
                       h3('Abundance Index 2'),
-                      p('Enter the unit for abundance index data in the field above, e.g. "Tonnes".'),
                       p("If you do not enter a month, it will be assumed to be at the beginning of the year."),
                       hodfr(
                           "abundance_index_2",
@@ -60,15 +63,14 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                       withSpinner(plotOutput("catchPlot", height=700)),
                       downloadButton("catchPlotDownload", label = "Download plot")),
 
-                  tabPanel("SPiCt summary plots",
-                      div(class="row",
-                          div(class = "col-md-3", checkboxInput("spict_seaprod", "Seasonal Productivity", value = FALSE)),
-                          div(class = "col-md-3", checkboxInput("spict_timevaryinggrowth", "Time-varying growth", value = FALSE))),
-                      withSpinner(plotOutput("fitPlot", height=700)),
-                      downloadButton("fitPlotDownload", label = "Download plot"),
+                  tabPanel("SPiCt messages",
                       downloadButton("fitObjectDownload", "Download spict.fit Rdata"),
                       h4('SPiCt messages:'),
                       withSpinner(verbatimTextOutput("fitMessage"))),
+
+                  tabPanel("SPiCt summary plots",
+                      withSpinner(plotOutput("fitPlot", height=700)),
+                      downloadButton("fitPlotDownload", label = "Download plot")),
 
                   tabPanel("SPiCt diagnostics plots",
                       withSpinner(plotOutput("diagnosticsPlot", height=700)),
