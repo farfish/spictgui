@@ -71,6 +71,10 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                       withSpinner(plotOutput("fitPlot", height=700)),
                       downloadButton("fitPlotDownload", label = "Download plot")),
 
+                  tabPanel("Retrospective analysis plots",
+                      withSpinner(plotOutput("retroPlot", height=700)),
+                      downloadButton("retroDownload", label = "Download plot")),
+
                   tabPanel("Diagnostics plots",
                       withSpinner(plotOutput("diagnosticsPlot", height=700)),
                       downloadButton("diagnosticsDownload", label = "Download plot")),

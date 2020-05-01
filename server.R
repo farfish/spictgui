@@ -17,6 +17,14 @@ memoised_fit.spict <- memoise::memoise(function (x) {
     }, args = list(x), timeout = 240)
 }, cache = memoise::cache_filesystem('/tmp/spictfit'))
 
+# Add a timeout and memoisation around spict::retro
+memoised_spict_retro <- memoise::memoise(function (x) {
+    callr::r(function(x) {
+        library(spict)
+        spict::retro(x)
+    }, args = list(x), timeout = 480)
+}, cache = memoise::cache_filesystem('/tmp/spictretro'))
+
 # Read all worksheets, converse of write.xlsx
 read_all_xlsx <- function (xlsx_path, ...) {
     df_names <- openxlsx::getSheetNames(xlsx_path)
@@ -68,6 +76,10 @@ server <- function(input, output, session) {
 
     spict_fit <- reactive({
         memoised_fit.spict(spict_doc())
+    })
+
+    spict_retro <- reactive({
+        memoised_spict_retro(spict_fit())
     })
 
     ##### File handling
@@ -144,6 +156,13 @@ server <- function(input, output, session) {
             save(fit, file = file)
         }
     )
+
+    #### Retro plots
+
+    plotPlusDownload('retroPlot', function () {
+        rep <- spict_retro()
+        spict::plotspict.retro(rep)
+    })
 
     #### Diagnostics
 
