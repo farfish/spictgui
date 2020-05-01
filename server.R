@@ -129,9 +129,10 @@ server <- function(input, output, session) {
 
     plotPlusDownload('fitPlot', function () {
         fit <- spict_fit()
-        if (fit$opt$convergence == 0) {
-            plot(fit)
+        if (fit$opt$convergence != 0) {
+            stop("Model did not obtain proper convergence! Estimates and uncertainties are most likely invalid and cannot be trusted.")
         }
+        plot(fit)
     })
 
     output$fitObjectDownload <- downloadHandler(
