@@ -97,7 +97,7 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                       withSpinner(plotOutput("catchPlot", height=700)),
                       downloadButton("catchPlotDownload", label = "Download plot")),
 
-                  tabPanel("Messages",
+                  tabPanel("Results summary",
                       downloadButton("fitObjectDownload", "Download spict.fit Rdata"),
                       withSpinner(verbatimTextOutput("fitMessage"))),
 
