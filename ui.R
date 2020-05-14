@@ -101,7 +101,7 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                       downloadButton("fitObjectDownload", "Download spict.fit Rdata"),
                       withSpinner(verbatimTextOutput("fitMessage"))),
 
-                  tabPanel("Checklist",
+                  tabPanel("Preliminary checklist",
                       h4('Checklist for the acceptance of a SPiCT assessment'),
                       p('Based on the', a('spict guidelines documentation', href="https://github.com/DTUAqua/spict/blob/master/spict/inst/doc/spict_guidelines.pdf")),
                       shiny::tags$ol(
@@ -117,12 +117,13 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                          shiny::tags$li(
                              withInlineMathJax(p('Consistent patterns in the retrospective analysis (fit <- retro(fit)). This means that there is no tendency of consistent under- or overestimation of the relative fishing mortality ($-$F / F_{MSY}$-$) and relative biomass ($-$B/B_{MSY}$-$) in successive assessment. The retrospective trajectories of those two quantities should be inside the confidence intervals of the base run.')),
                              withSpinner(verbatimTextOutput('testRetro'), proxy.height = "100px")),
-                         shiny::tags$li(
-                             withInlineMathJax(p('Realistic production curve. The shape of the production curve should not be too skewed ( $-$B_{MSY}/K$-$ should be between 0.1 and 0.9). Low values of $-$B_{MSY}/K$-$ allow for an infinite population growth rate (calc.bmsyk(fit)).')),
-                             withSpinner(verbatimTextOutput('testProd'), proxy.height = "100px")),
-                         shiny::tags$li(
-                             withInlineMathJax(p('High assessment uncertainty can indicate a lack of contrast in the input data or violation of the ecological model assumptions. The main variance parameters (logsdb, logsdc, logsdi, logsdf) should not be unrealistically high. Confidence intervals for $-$B/B_{MSY}$-$ and $-$F / F_{MSY}$-$ should not span more than 1 order of magnitude (calc.om(fit)).')),
-                             withSpinner(verbatimTextOutput('testUncertainty'), proxy.height = "100px")),
+                         # NB: Not available on tvp_blim branch yet
+                         #shiny::tags$li(
+                         #    withInlineMathJax(p('Realistic production curve. The shape of the production curve should not be too skewed ( $-$B_{MSY}/K$-$ should be between 0.1 and 0.9). Low values of $-$B_{MSY}/K$-$ allow for an infinite population growth rate (calc.bmsyk(fit)).')),
+                         #    withSpinner(verbatimTextOutput('testProd'), proxy.height = "100px")),
+                         #shiny::tags$li(
+                         #    withInlineMathJax(p('High assessment uncertainty can indicate a lack of contrast in the input data or violation of the ecological model assumptions. The main variance parameters (logsdb, logsdc, logsdi, logsdf) should not be unrealistically high. Confidence intervals for $-$B/B_{MSY}$-$ and $-$F / F_{MSY}$-$ should not span more than 1 order of magnitude (calc.om(fit)).')),
+                         #    withSpinner(verbatimTextOutput('testUncertainty'), proxy.height = "100px")),
                          shiny::tags$li(
                              p('Initial values do not influence the parameter estimates (fit <- check.ini(fit)). The estimates should be the same for all initial values (fit$check.ini$resmat). Runs which did not converge should not be considered in this regard.'),
                              withSpinner(verbatimTextOutput('testInitial'), proxy.height = "100px")),
@@ -132,9 +133,10 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                       withSpinner(plotOutput("fitPlot", height=700)),
                       downloadButton("fitPlotDownload", label = "Download plot")),
 
-                  tabPanel("Retrospective analysis plots",
-                      withSpinner(plotOutput("retroPlot", height=700)),
-                      downloadButton("retroDownload", label = "Download plot")),
+                  # NB: Broken on tvp_blim branch
+                  #tabPanel("Retrospective analysis plots",
+                  #    withSpinner(plotOutput("retroPlot", height=700)),
+                  #    downloadButton("retroDownload", label = "Download plot")),
 
                   tabPanel("Diagnostics plots",
                       withSpinner(plotOutput("diagnosticsPlot", height=700)),
