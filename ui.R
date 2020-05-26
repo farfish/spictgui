@@ -32,6 +32,10 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                           div(class="col-md-3",
                               downloadButton("saveData", "Save data to xlsx", style = "margin-top: 25px"))),
 
+                      # NB: CITATION syntax invalid in tvp_blim
+                      #p("Based on:"),
+                      #HTML(format(citation('spict'), style="html")),
+
                       h3('Model configuration'),
                       div(class="row",
                           div(class = "col-md-3", checkboxInput("spict_seaprod", "Seasonal Productivity", value = FALSE)),
@@ -114,9 +118,9 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                          shiny::tags$li(
                              p('No violation of model assumptions based on one-step-ahead residuals (bias, auto-correlation, normality). This means, that p-values are insignificant (> 0.05), indicated by green titles in the graphs of spictplot.diagnostic(fit). Slight violations of these assumptions do not necessarily invalidate model results.'),
                              withSpinner(verbatimTextOutput('testResiduals'), proxy.height = "100px")),
-                         shiny::tags$li(
-                             withInlineMathJax(p('Consistent patterns in the retrospective analysis (fit <- retro(fit)). This means that there is no tendency of consistent under- or overestimation of the relative fishing mortality ($-$F / F_{MSY}$-$) and relative biomass ($-$B/B_{MSY}$-$) in successive assessment. The retrospective trajectories of those two quantities should be inside the confidence intervals of the base run.')),
-                             withSpinner(verbatimTextOutput('testRetro'), proxy.height = "100px")),
+                         #shiny::tags$li(
+                         #    withInlineMathJax(p('Consistent patterns in the retrospective analysis (fit <- retro(fit)). This means that there is no tendency of consistent under- or overestimation of the relative fishing mortality ($-$F / F_{MSY}$-$) and relative biomass ($-$B/B_{MSY}$-$) in successive assessment. The retrospective trajectories of those two quantities should be inside the confidence intervals of the base run.')),
+                         #    withSpinner(verbatimTextOutput('testRetro'), proxy.height = "100px")),
                          # NB: Not available on tvp_blim branch yet
                          #shiny::tags$li(
                          #    withInlineMathJax(p('Realistic production curve. The shape of the production curve should not be too skewed ( $-$B_{MSY}/K$-$ should be between 0.1 and 0.9). Low values of $-$B_{MSY}/K$-$ allow for an infinite population growth rate (calc.bmsyk(fit)).')),
