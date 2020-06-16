@@ -128,10 +128,14 @@ navbarPage(id = "nav", windowTitle = "FarFish SPiCtGui",
                          #shiny::tags$li(
                          #    withInlineMathJax(p('High assessment uncertainty can indicate a lack of contrast in the input data or violation of the ecological model assumptions. The main variance parameters (logsdb, logsdc, logsdi, logsdf) should not be unrealistically high. Confidence intervals for $-$B/B_{MSY}$-$ and $-$F / F_{MSY}$-$ should not span more than 1 order of magnitude (calc.om(fit)).')),
                          #    withSpinner(verbatimTextOutput('testUncertainty'), proxy.height = "100px")),
-                         shiny::tags$li(
-                             p('Initial values do not influence the parameter estimates (fit <- check.ini(fit)). The estimates should be the same for all initial values (fit$check.ini$resmat). Runs which did not converge should not be considered in this regard.'),
-                             withSpinner(verbatimTextOutput('testInitial'), proxy.height = "100px")),
-                         "")),
+                         #shiny::tags$li(
+                         #    p('Initial values do not influence the parameter estimates (fit <- check.ini(fit)). The estimates should be the same for all initial values (fit$check.ini$resmat). Runs which did not converge should not be considered in this regard.'),
+                         #    withSpinner(verbatimTextOutput('testInitial'), proxy.height = "100px")),
+                         ""),
+                      p("Please note that this is a preliminary checklist, you should consult the",
+                        a('SPiCt guidelines documentation', href="https://github.com/DTUAqua/spict/blob/master/spict/inst/doc/spict_guidelines.pdf"),
+                        "for a full list of requirements to check."),
+                      ""),
 
                   tabPanel("Summary plots",
                       withSpinner(plotOutput("fitPlot", height=700)),
