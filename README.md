@@ -8,13 +8,16 @@ R and shiny server need to be installed, follow instructions at https://www.rstu
 
 ## Installation
 
-Check out this repository, and install required R packages with:
+Make sure required dependencies are installed with:
 
-    Rscript ./install-deps.R
+    > source('install-deps.R')
 
-...or study the script and perform equivalent steps.
+...then lanuch the app with:
 
-Symlink this directory into the shiny server root, for example:
+    shiny::runApp()
+
+If using a [Shiny Server](https://rstudio.com/products/shiny/shiny-server/),
+symlink this directory into the shiny server root, for example:
 
     ln -rs . /srv/shiny-server/spictgui
 
